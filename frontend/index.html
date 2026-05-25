@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Skill Passport on Stellar</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Vietnam Stellar Unitour</p>
+        <h1>Skill Passport</h1>
+      </div>
+      <button id="connectBtn" type="button" title="Connect wallet">Connect Wallet</button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <h2>Verifiable learning records for Stellar builders</h2>
+          <p>
+            Mentors issue on-chain completion proof, learners collect points, and every
+            milestone can be checked from a public Stellar testnet contract.
+          </p>
+        </div>
+        <div class="stats" aria-label="Passport preview">
+          <span>Points</span>
+          <strong id="pointsValue">75</strong>
+          <span>Completed milestones</span>
+          <strong id="completedValue">1</strong>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <form id="verifyForm">
+          <h2>Issue Completion</h2>
+          <label>
+            Learner address
+            <input id="learner" required placeholder="G..." />
+          </label>
+          <label>
+            Course ID
+            <input id="courseId" required type="number" min="1" value="1" />
+          </label>
+          <label>
+            Evidence link
+            <input id="evidence" required placeholder="https://github.com/..." />
+          </label>
+          <button type="submit">Prepare Invoke</button>
+        </form>
+
+        <aside class="panel">
+          <h2>Invoke Plan</h2>
+          <pre id="invokePreview">verify(learner, 1, evidence)</pre>
+          <p>
+            Replace the mock values with your deployed contract ID and Freighter
+            address after the contract is live on testnet.
+          </p>
+        </aside>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
