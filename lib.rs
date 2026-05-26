@@ -94,9 +94,13 @@ impl SkillPassportContract {
         env.storage()
             .persistent()
             .set(&DataKey::Course(id), &course);
+        let next_id = match id.checked_add(1) {
+            Some(value) => value,
+            None => return Err(Error::RewardOverflow),
+        };
         env.storage()
             .instance()
-            .set(&DataKey::NextCourseId, &(id + 1));
+            .set(&DataKey::NextCourseId, &next_id);
 
         Ok(id)
     }
@@ -138,9 +142,17 @@ impl SkillPassportContract {
             Some(value) => value,
             None => return Err(Error::RewardOverflow),
         };
-        let completed_count = read_u32(&env, DataKey::CompletedCount(learner.clone())) + 1;
+        let completed_count = match read_u32(&env, DataKey::CompletedCount(learner.clone()))
+            .checked_add(1)
+        {
+            Some(value) => value,
+            None => return Err(Error::RewardOverflow),
+        };
 
-        course.completions += 1;
+        course.completions = match course.completions.checked_add(1) {
+            Some(value) => value,
+            None => return Err(Error::RewardOverflow),
+        };
         let completion = Completion {
             learner: learner.clone(),
             course_id,

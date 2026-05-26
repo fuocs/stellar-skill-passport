@@ -13,21 +13,19 @@ fn verifier_awards_learning_passport_points() {
     let verifier = Address::generate(&env);
     let learner = Address::generate(&env);
 
-    assert_eq!(client.init(&admin), Ok(()));
+    client.init(&admin);
 
     let course_id = client.create_course(
         &String::from_str(&env, "Soroban Smart Contract Basics"),
         &verifier,
         &75,
-    )
-    .unwrap();
+    );
 
     let completion = client.verify(
         &learner,
         &course_id,
         &String::from_str(&env, "https://github.com/student/stellar-project"),
-    )
-    .unwrap();
+    );
 
     assert_eq!(completion.reward, 75);
     assert_eq!(completion.verifier, verifier);
@@ -51,16 +49,17 @@ fn learner_cannot_receive_duplicate_credit() {
     let verifier = Address::generate(&env);
     let learner = Address::generate(&env);
 
-    assert_eq!(client.init(&admin), Ok(()));
-    let course_id = client
-        .create_course(&String::from_str(&env, "Freighter Wallet"), &verifier, &20)
-        .unwrap();
+    client.init(&admin);
+    let course_id =
+        client.create_course(&String::from_str(&env, "Freighter Wallet"), &verifier, &20);
 
-    client
-        .verify(&learner, &course_id, &String::from_str(&env, "first proof"))
-        .unwrap();
+    client.verify(&learner, &course_id, &String::from_str(&env, "first proof"));
     assert_eq!(
-        client.verify(&learner, &course_id, &String::from_str(&env, "duplicate proof")),
-        Err(Error::AlreadyCompleted)
+        client.try_verify(
+            &learner,
+            &course_id,
+            &String::from_str(&env, "duplicate proof")
+        ),
+        Err(Ok(Error::AlreadyCompleted))
     );
 }

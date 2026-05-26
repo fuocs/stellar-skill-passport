@@ -4,3 +4,6 @@ members = ["contracts/*"]
 
 [workspace.dependencies]
 soroban-sdk = "25.3.1"
+
+[profile.release]
+overflow-checks = true
