@@ -5,7 +5,7 @@ const courseInput = document.querySelector("#courseId");
 const evidenceInput = document.querySelector("#evidence");
 const preview = document.querySelector("#invokePreview");
 
-const CONTRACT_ID = "CACQPBXHOFOIXNVW22Z5XB43D6U3RXC3CRR7ZQQLVR5UMQ3J5Y3RBXKX";
+const CONTRACT_ID = "CBXPT65ICV2ST62OXKKI3CGOTUA3UAB32KBIQJRFR4KJMGHL2MAYQVTU";
 const RPC_URL = "https://soroban-testnet.stellar.org";
 const NETWORK_PASSPHRASE = "Test SDF Network ; September 2015";
 

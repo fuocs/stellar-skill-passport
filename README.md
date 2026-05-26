@@ -25,18 +25,18 @@ My vision is to make learning progress easier to prove and reuse. A student shou
 Repository: https://github.com/fuocs/stellar-skill-passport
 
 Contract on Stellar Testnet:
-https://stellar.expert/explorer/testnet/contract/CACQPBXHOFOIXNVW22Z5XB43D6U3RXC3CRR7ZQQLVR5UMQ3J5Y3RBXKX?filter=history
+https://stellar.expert/explorer/testnet/contract/CBXPT65ICV2ST62OXKKI3CGOTUA3UAB32KBIQJRFR4KJMGHL2MAYQVTU?filter=history
 
 Contract ID:
 
 ```text
-CACQPBXHOFOIXNVW22Z5XB43D6U3RXC3CRR7ZQQLVR5UMQ3J5Y3RBXKX
+CBXPT65ICV2ST62OXKKI3CGOTUA3UAB32KBIQJRFR4KJMGHL2MAYQVTU
 ```
 
 WASM hash:
 
 ```text
-267a1be89fe4cb69d03b3381b570a0a6c2fb52b2839ce81449d0dfb58e903858
+4b2b6f044ef4397613cf68993f553dc1a27edafc710b27eccf524bab90e96c75
 ```
 
 Testnet deployer:
@@ -47,11 +47,11 @@ GCBZQEMRYZJGQVMJ5GI3ORDLT55UL7V4FCLUWUAEANKV5FBOJHMRZZBX
 
 Main testnet transactions:
 
-- Upload WASM: https://stellar.expert/explorer/testnet/tx/283e2a7690ad18886b8613e64e47b8b9260ecfe4bc2d8b15c25e665492055738
-- Deploy contract: https://stellar.expert/explorer/testnet/tx/373e1a3315db1afaec93f07ec84a3c4877ea03060e7ddd5972dbed45841ac3b6
-- `init`: https://stellar.expert/explorer/testnet/tx/f183a237703656a020722c85a4e00963138bfb9e45ab86f3741a002270cbe1a1
-- `create_course`: https://stellar.expert/explorer/testnet/tx/52e02e0d4a9dc509ab2468617bb80a0762237a04180c0bc99673d2e33bfadde7
-- `verify`: https://stellar.expert/explorer/testnet/tx/5b54b1d2fbf2900b020451de3e10bd98fcbf9767ca6c178649f685a847d60905
+- Upload WASM: https://stellar.expert/explorer/testnet/tx/951f774a9901e66c04548b9efa72d6016f4f605a2d611b1fd57ce2ded2b79a2d
+- Deploy contract: https://stellar.expert/explorer/testnet/tx/98ea51a467aa6c8ff29ddf97d4103fda30c90292df27a8cb2ced7155d2ccf357
+- `init`: https://stellar.expert/explorer/testnet/tx/cd3d883fd87ef019571ad599a99e8f8e745b035b697a86ac054b2e8bb6dfdf39
+- `create_course`: https://stellar.expert/explorer/testnet/tx/8ac897cd8b4b0d71d483352e66a860f88aedd1affb7ee66826e11597246e3694
+- `verify`: https://stellar.expert/explorer/testnet/tx/c903a4ece6ad0c932a93ca370ab3b04ad883497fc71c0338ce4a2a19a76ac946
 
 The `passport` call was read-only and returned:
 

@@ -2,6 +2,12 @@
 
 use soroban_sdk::{contract, contracterror, contractimpl, contracttype, Address, Env, String};
 
+const DAY_LEDGERS: u32 = 17_280;
+const INSTANCE_TTL_THRESHOLD: u32 = 6 * DAY_LEDGERS;
+const INSTANCE_TTL_EXTEND_TO: u32 = 7 * DAY_LEDGERS;
+const PERSISTENT_TTL_THRESHOLD: u32 = 89 * DAY_LEDGERS;
+const PERSISTENT_TTL_EXTEND_TO: u32 = 90 * DAY_LEDGERS;
+
 #[contracttype]
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Course {
@@ -69,6 +75,7 @@ impl SkillPassportContract {
         admin.require_auth();
         env.storage().instance().set(&DataKey::Admin, &admin);
         env.storage().instance().set(&DataKey::NextCourseId, &1_u32);
+        extend_instance_ttl(&env);
         Ok(())
     }
 
@@ -94,6 +101,7 @@ impl SkillPassportContract {
         env.storage()
             .persistent()
             .set(&DataKey::Course(id), &course);
+        extend_persistent_ttl(&env, &DataKey::Course(id));
         let next_id = match id.checked_add(1) {
             Some(value) => value,
             None => return Err(Error::RewardOverflow),
@@ -101,6 +109,7 @@ impl SkillPassportContract {
         env.storage()
             .instance()
             .set(&DataKey::NextCourseId, &next_id);
+        extend_instance_ttl(&env);
 
         Ok(id)
     }
@@ -114,6 +123,7 @@ impl SkillPassportContract {
         env.storage()
             .persistent()
             .set(&DataKey::Course(course_id), &course);
+        extend_persistent_ttl(&env, &DataKey::Course(course_id));
         Ok(course)
     }
 
@@ -142,12 +152,11 @@ impl SkillPassportContract {
             Some(value) => value,
             None => return Err(Error::RewardOverflow),
         };
-        let completed_count = match read_u32(&env, DataKey::CompletedCount(learner.clone()))
-            .checked_add(1)
-        {
-            Some(value) => value,
-            None => return Err(Error::RewardOverflow),
-        };
+        let completed_count =
+            match read_u32(&env, DataKey::CompletedCount(learner.clone())).checked_add(1) {
+                Some(value) => value,
+                None => return Err(Error::RewardOverflow),
+            };
 
         course.completions = match course.completions.checked_add(1) {
             Some(value) => value,
@@ -164,18 +173,23 @@ impl SkillPassportContract {
         env.storage()
             .persistent()
             .set(&DataKey::Course(course_id), &course);
+        extend_persistent_ttl(&env, &DataKey::Course(course_id));
         env.storage()
             .persistent()
             .set(&DataKey::Completed(learner.clone(), course_id), &completion);
+        extend_persistent_ttl(&env, &DataKey::Completed(learner.clone(), course_id));
         env.storage()
             .persistent()
             .set(&DataKey::Points(learner.clone()), &next_points);
+        extend_persistent_ttl(&env, &DataKey::Points(learner.clone()));
         env.storage()
             .persistent()
             .set(&DataKey::CompletedCount(learner.clone()), &completed_count);
+        extend_persistent_ttl(&env, &DataKey::CompletedCount(learner.clone()));
         env.storage()
             .persistent()
             .set(&DataKey::LastCourse(learner), &course_id);
+        extend_persistent_ttl(&env, &DataKey::LastCourse(completion.learner.clone()));
 
         Ok(completion)
     }
@@ -190,11 +204,7 @@ impl SkillPassportContract {
             .has(&DataKey::Completed(learner, course_id))
     }
 
-    pub fn get_completion(
-        env: Env,
-        learner: Address,
-        course_id: u32,
-    ) -> Result<Completion, Error> {
+    pub fn get_completion(env: Env, learner: Address, course_id: u32) -> Result<Completion, Error> {
         match env
             .storage()
             .persistent()
@@ -239,4 +249,16 @@ fn read_course(env: &Env, course_id: u32) -> Result<Course, Error> {
 
 fn read_u32(env: &Env, key: DataKey) -> u32 {
     env.storage().persistent().get(&key).unwrap_or(0)
+}
+
+fn extend_instance_ttl(env: &Env) {
+    env.storage()
+        .instance()
+        .extend_ttl(INSTANCE_TTL_THRESHOLD, INSTANCE_TTL_EXTEND_TO);
+}
+
+fn extend_persistent_ttl(env: &Env, key: &DataKey) {
+    env.storage()
+        .persistent()
+        .extend_ttl(key, PERSISTENT_TTL_THRESHOLD, PERSISTENT_TTL_EXTEND_TO);
 }
