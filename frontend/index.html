@@ -53,14 +53,24 @@
         <aside class="panel">
           <h2>Invoke Plan</h2>
           <pre id="invokePreview">verify(learner, 1, evidence)</pre>
+          <dl class="contract-meta">
+            <div>
+              <dt>Network</dt>
+              <dd>Stellar Testnet</dd>
+            </div>
+            <div>
+              <dt>Contract</dt>
+              <dd>CACQPBXH...Y3RBXKX</dd>
+            </div>
+          </dl>
           <p>
-            Replace the mock values with your deployed contract ID and Freighter
-            address after the contract is live on testnet.
+            The frontend connects to Freighter and prepares a Stellar SDK contract
+            call for the deployed testnet contract.
           </p>
         </aside>
       </section>
     </main>
 
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
   </body>
 </html>

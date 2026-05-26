@@ -18,7 +18,7 @@ My vision is to make learning progress easier to prove and reuse. A student shou
 - The contract stores courses, completion proof, total points, and passport summaries
 - Anyone can query a course, check whether a learner completed it, or view a learner passport
 - Unit tests cover the main success flow and the duplicate-completion case
-- The `frontend/` folder has a small UI prototype for the final dapp idea
+- The `frontend/` folder has a small UI prototype with Freighter and Stellar SDK integration points
 
 ## Contract Details
 
@@ -88,6 +88,7 @@ The `passport` call was read-only and returned:
 |-- frontend
 |   |-- app.js
 |   |-- index.html
+|   |-- package.json
 |   |-- server.mjs
 |   `-- styles.css
 |-- contract-history.png
@@ -98,6 +99,32 @@ The `passport` call was read-only and returned:
 ```
 
 The root `lib.rs` is included because the bootcamp guide asks us to paste code into a `lib.rs` file in Soroban Studio. The full Rust project is inside `contracts/skill-passport/`
+
+## Setup
+
+For the contract:
+
+```bash
+rustup target add wasm32v1-none
+cargo test
+stellar contract build --package skill-passport
+```
+
+For the frontend:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Then open:
+
+```text
+http://127.0.0.1:5173/
+```
+
+The frontend uses Freighter for wallet access and the Stellar SDK package for testnet contract integration
 
 ## Build and Test
 
@@ -110,21 +137,19 @@ stellar contract build --package skill-passport
 
 The test suite currently covers the normal passport flow and the duplicate-completion guard
 
+## Screenshots
+
+Contract history on Stellar Expert:
+
+![Contract history on Stellar Expert](contract-history.png)
+
+Frontend UI preview:
+
+![Frontend preview](frontend-preview.png)
+
 ## Frontend Preview
 
-The frontend is still a prototype, but it shows how the app could feel for a learner or verifier
-
-Run it locally:
-
-```bash
-node frontend/server.mjs
-```
-
-Then open:
-
-```text
-http://127.0.0.1:5173/
-```
+The frontend is still a prototype, but it shows how the app could feel for a learner or verifier. It includes a Freighter connect button and prepares the `verify` contract call against the deployed testnet contract
 
 ## Deploy and Invoke
 
@@ -146,7 +171,7 @@ For a better demo, I would use two wallets: one mentor wallet as the `verifier`,
 
 ## Future Scope
 
-- Connect the frontend directly to Freighter and Stellar RPC
+- Turn the current Freighter/Stellar SDK flow into a full signed transaction flow
 - Add more verifier roles for clubs, mentors, and partner events
 - Add badge levels such as Beginner, Builder, and Hackathon Ready
 - Add a way to revoke or dispute a wrong completion record

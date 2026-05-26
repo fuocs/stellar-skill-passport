@@ -1,0 +1,15 @@
+{
+  "name": "skill-passport-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Small frontend prototype for the Skill Passport Stellar dapp",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs"
+  },
+  "dependencies": {
+    "@stellar/freighter-api": "^4.1.0",
+    "@stellar/stellar-sdk": "^13.1.0"
+  }
+}
